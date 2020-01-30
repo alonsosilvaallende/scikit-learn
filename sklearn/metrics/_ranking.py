@@ -27,6 +27,7 @@ from scipy.stats import rankdata
 
 from ..utils import assert_all_finite
 from ..utils import check_consistent_length
+from ..utils import _check_sample_weight
 from ..utils import column_or_1d, check_array
 from ..utils.multiclass import type_of_target
 from ..utils.extmath import stable_cumsum
@@ -536,6 +537,8 @@ def _binary_clf_curve(y_true, y_score, pos_label=None, sample_weight=None):
         raise ValueError("{0} format is not supported".format(y_type))
 
     check_consistent_length(y_true, y_score, sample_weight)
+    if sample_weight is not None:
+        _check_sample_weight(sample_weight, y_true)
     y_true = column_or_1d(y_true)
     y_score = column_or_1d(y_score)
     assert_all_finite(y_true)
